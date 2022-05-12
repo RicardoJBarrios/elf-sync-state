@@ -32,15 +32,7 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
-        "push": true,
-        "postTargets": ["elf-sync-state:github", "elf-sync-state:publish"]
-      }
-    },
-    "github": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "${tag}",
-        "notes": "${notes}"
+        "push": true
       }
     },
     "publish": {
