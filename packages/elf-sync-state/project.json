@@ -38,7 +38,7 @@
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "node tools/scripts/publish.mjs elf-sync-state {args.ver} {args.tag}"
+        "command": "npm publish dist/packages/elf-sync-state --access public"
       },
       "dependsOn": [
         {
