@@ -1,0 +1,25 @@
+{
+  "name": "elf-sync-state",
+  "version": "0.0.1",
+  "description": "Syncs elf store state across tabs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/RicardoJBarrios/elf-sync-state/issues"
+  },
+  "homepage": "https://github.com/RicardoJBarrios/elf-sync-state/blob/main/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RicardoJBarrios/elf-sync-state"
+  },
+  "keywords": [
+    "javascript",
+    "state-management",
+    "elf",
+    "broadcastchannel",
+    "sync-state"
+  ],
+  "sideEffects": false,
+  "license": "MIT"
+}
