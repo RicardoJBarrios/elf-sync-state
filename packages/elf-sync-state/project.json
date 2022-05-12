@@ -38,14 +38,12 @@
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "npm publish dist/packages/elf-sync-state --access public"
-      },
-      "dependsOn": [
-        {
-          "projects": "self",
-          "target": "build"
-        }
-      ]
+        "commands": [
+          "npx nx build elf-sync-state",
+          "npm publish dist/packages/elf-sync-state --access public"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []
