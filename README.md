@@ -1,5 +1,7 @@
 # Sync State
 
+[![npm](https://img.shields.io/npm/v/elf-sync-state?logo=npm&style=flat-square)](https://www.npmjs.com/package/elf-sync-state) [![GitHub watchers](https://img.shields.io/github/watchers/ricardojbarrios/elf-sync-state?logo=github&style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state) [![GitHub](https://img.shields.io/github/license/ricardojbarrios/kuoki?style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state/blob/main/LICENSE.md) [![GitHub issues environment](https://img.shields.io/github/issues/ricardojbarrios/elf-sync-state?logo=github&label=issues&style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state/issues)
+
 The `syncState()` function gives you the ability to sync an [elf](https://ngneat.github.io/elf/) store state across multiple tabs, windows, iframes or workers using the [Broadcast Channel API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API).
 
 First, you need to install the package via npm:
