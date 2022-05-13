@@ -57,3 +57,11 @@ syncState(todoStore, {
   source: () => todoStore.pipe(includeKeys(['ids', 'entities'])),
 });
 ```
+
+## Integration with other plugins
+
+The use of this library has been tested together with other store libraries, such as [elf-entities](https://ngneat.github.io/elf/docs/features/entities/entities), [elf-persist-state](https://ngneat.github.io/elf/docs/features/persist-state) or [elf-state-history](https://ngneat.github.io/elf/docs/features/history).
+
+[Here](https://stackblitz.com/edit/angular-elf-sync-state?devToolsHeight=33&file=src/app/todo.repository.ts) is an example of using all of these in an Angular application. Just open the result in two different tabs to see the library in action.
+
+> :warning: There may be a desync due to hot reload
