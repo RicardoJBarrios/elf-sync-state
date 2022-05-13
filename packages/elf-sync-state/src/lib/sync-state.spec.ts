@@ -1,28 +1,40 @@
 import { createStore, setProp, Store, withProps } from '@ngneat/elf';
-import { map, Subject, take } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
+import { includeKeys } from './include-keys';
 import { syncState } from './sync-state';
 
-const shared: Subject<any> = new Subject();
+const channels: Map<string, Subject<any>> = new Map();
 
-class BroadcastChannel {
-  constructor(public name: string) {}
+class MockBroadcastChannel implements BroadcastChannel {
+  private _destroy: Subject<void> = new Subject();
+  constructor(public name: string) {
+    channels.set(name, new Subject());
+  }
   onmessage = jest.fn();
   onmessageerror = jest.fn();
-  close = jest.fn();
-  postMessage = jest.fn().mockImplementation((message) => shared.next(message));
+  close = jest.fn().mockImplementation(() => {
+    this._destroy.next();
+    this._destroy.complete();
+  });
+  postMessage = jest
+    .fn()
+    .mockImplementation((message) => channels.get(this.name)?.next(message));
   addEventListener = jest.fn().mockImplementation((_type, listener) => {
-    shared.subscribe((data) => listener(new MessageEvent('message', { data })));
+    channels
+      .get(this.name)
+      ?.pipe(takeUntil(this._destroy))
+      .subscribe((data) => listener(new MessageEvent('message', { data })));
   });
   removeEventListener = jest.fn();
   dispatchEvent = jest.fn();
 }
 
 describe('syncState', () => {
-  const name = 'test';
+  const name = 'name';
 
   beforeAll(() => {
-    window.BroadcastChannel = BroadcastChannel;
+    window.BroadcastChannel = MockBroadcastChannel;
   });
 
   it('returns the BroadcastChannel', () => {
@@ -59,7 +71,7 @@ describe('syncState', () => {
 
   it('post a channel message on option source change', () => {
     const store = createStore({ name }, withProps<any>({ a: 0, b: 0 }));
-    const source = (s: Store) => s.pipe(map((st) => ({ b: st.b })));
+    const source = (s: Store) => s.pipe(includeKeys(['b']));
     const channel = syncState(store, { source });
 
     expect(channel.postMessage).not.toHaveBeenCalled();
@@ -93,7 +105,7 @@ describe('syncState', () => {
 
   it('update the elf store with channel message option source data', () => {
     const store = createStore({ name }, withProps<any>({ a: 0, b: 0 }));
-    const source = (s: Store) => s.pipe(map((st) => ({ b: st.b })));
+    const source = (s: Store) => s.pipe(includeKeys(['b']));
     syncState(store, { source });
 
     const store2 = createStore({ name }, withProps<any>({ a: 0, b: 0 }));
