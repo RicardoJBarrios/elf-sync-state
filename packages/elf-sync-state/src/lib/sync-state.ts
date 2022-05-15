@@ -12,7 +12,7 @@ export function syncState<S extends Store>(
   options?: Options<S>
 ): BroadcastChannel {
   const defaultOptions: Required<Options<S>> = {
-    channel: store.name,
+    channel: `${store.name}@store`,
     source: (_store) => _store.asObservable(),
   };
 

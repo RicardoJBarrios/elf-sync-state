@@ -44,10 +44,10 @@ describe('syncState', () => {
     expect(channel).toBeInstanceOf(BroadcastChannel);
   });
 
-  it('creates a BroadcastChannel with store name', () => {
+  it(`creates a BroadcastChannel with store name plus '@store'`, () => {
     const store = createStore({ name }, withProps<any>({}));
 
-    expect(syncState(store).name).toEqual(name);
+    expect(syncState(store).name).toEqual(`${name}@store`);
   });
 
   it('creates a BroadcastChannel with option channel name', () => {
