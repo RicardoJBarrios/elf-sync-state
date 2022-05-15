@@ -38,7 +38,7 @@ As the second parameter you can pass an optional `Options` object, which can be 
 - `runGuard` - a function that returns whether the actual implementation should be run. The default is `() => typeof window !== 'undefined' && typeof window.BroadcastChannel !== 'undefined'`.
 
 ```ts
-import { includeKeys, syncState } from 'elf-sync-state';
+import { syncState } from 'elf-sync-state';
 import { authStore } from './auth.store';
 
 syncState(authStore, { channel: 'auth-channel' });
@@ -47,7 +47,7 @@ syncState(authStore, { channel: 'auth-channel' });
 The sync state also returns the [`BroadcastChannel`](https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel) object created or `undefined` if the `runGuard` function returns `false`.
 
 ```ts
-import { includeKeys, syncState } from 'elf-sync-state';
+import { syncState } from 'elf-sync-state';
 import { authStore } from './auth.store';
 
 const channel: BroadcastChannel | undefined = syncState(authStore);
@@ -59,10 +59,10 @@ The `includeKeys()` operator can be used to sync a subset of the state:
 
 ```ts
 import { includeKeys, syncState } from 'elf-sync-state';
-import { todoStore } from './todo.store';
+import { authStore } from './auth.store';
 
-syncState(todoStore, {
-  source: () => todoStore.pipe(includeKeys(['ids', 'entities'])),
+syncState(authStore, {
+  source: () => todoStore.pipe(includeKeys(['user'])),
 });
 ```
 
