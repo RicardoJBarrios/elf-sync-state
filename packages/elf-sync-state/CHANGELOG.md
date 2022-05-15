@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+### [1.0.1](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.0.0...elf-sync-state-1.0.1) (2022-05-15)
+
 ## [1.0.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-0.2.0...elf-sync-state-1.0.0) (2022-05-13)
 
 ## [0.2.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-0.1.1...elf-sync-state-0.2.0) (2022-05-13)
