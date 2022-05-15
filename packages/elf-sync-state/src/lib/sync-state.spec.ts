@@ -99,6 +99,33 @@ describe('syncState', () => {
     expect(channel?.postMessage).toHaveBeenCalledTimes(1);
   });
 
+  it('uses preUpdateFromEvent(event) to get the message data', () => {
+    const store = createStore({ name }, withProps<any>({}));
+    syncState(store);
+
+    const store2 = createStore({ name }, withProps<any>({}));
+    jest.spyOn(store2, 'update');
+    const fn = jest.fn();
+    const newValue = { a: 0 };
+    const preUpdateFromEvent = (event: any) => {
+      fn(event);
+      return newValue;
+    };
+    syncState(store2, { preUpdate: preUpdateFromEvent });
+
+    expect(fn).not.toHaveBeenCalled();
+    expect(store2.update).not.toHaveBeenCalled();
+    expect(store2.getValue()).toEqual({});
+
+    const newName = 'newName';
+    const ev = new MessageEvent<any>('message', { data: { newName } });
+    store.update(setProp('newName', newName));
+
+    expect(fn).toHaveBeenNthCalledWith(1, ev);
+    expect(store2.update).toHaveBeenCalledTimes(1);
+    expect(store2.getValue()).toEqual(newValue);
+  });
+
   it('update the elf store with channel message state data', () => {
     const store = createStore({ name }, withProps<any>({}));
     syncState(store);

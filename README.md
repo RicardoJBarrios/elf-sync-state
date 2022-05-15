@@ -34,8 +34,9 @@ syncState(authStore);
 As the second parameter you can pass an optional `Options` object, which can be used to define the following:
 
 - `channel`: the name of the channel (by default - the store name plus a `@store` suffix).
-- `source`: a method that receives the store and return what to sync from it (by default - the entire store).
-- `runGuard` - a function that returns whether the actual implementation should be run. The default is `() => typeof window !== 'undefined' && typeof window.BroadcastChannel !== 'undefined'`.
+- `source`: a function that receives the store and return what to sync from it. The default is `(store) => store`
+- `preUpdate`: a function to map the even message and get the data. The default is `(event) => event.data`.
+- `runGuard`: a function that returns whether the actual implementation should be run. The default is `() => typeof window !== 'undefined' && typeof window.BroadcastChannel !== 'undefined'`.
 
 ```ts
 import { syncState } from 'elf-sync-state';
@@ -63,6 +64,23 @@ import { authStore } from './auth.store';
 
 syncState(authStore, {
   source: () => todoStore.pipe(includeKeys(['user'])),
+});
+```
+
+## Pre Update interceptor
+
+The `preUpdate` option can be used to intercept the [`MessageEvent`](https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent)
+and modify the data to be synchronized taking into account other properties of the event.
+
+```ts
+import { includeKeys, syncState } from 'elf-sync-state';
+import { authStore } from './auth.store';
+
+syncState(authStore, {
+  preUpdate: (event) => {
+    console.log(event);
+    return event.origin === '' ? undefined : event.data;
+  },
 });
 ```
 
