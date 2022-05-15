@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.1.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.0.1...elf-sync-state-1.1.0) (2022-05-15)
+
+### Features
+
+- **elf-sync-state:** add [@store](https://github.com/store) prefix to default channel name ([bd6b335](https://github.com/RicardoJBarrios/elf-sync-state/commit/bd6b335117e0c10e4f1aa4924296769696a96d2e))
+- **elf-sync-state:** add runGuard to Options ([52aa351](https://github.com/RicardoJBarrios/elf-sync-state/commit/52aa351ae4aac5797272c65b217fbb0a136247fb))
+
 ### [1.0.1](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.0.0...elf-sync-state-1.0.1) (2022-05-15)
 
 ## [1.0.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-0.2.0...elf-sync-state-1.0.0) (2022-05-13)
