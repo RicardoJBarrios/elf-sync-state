@@ -10,7 +10,7 @@
         "outputPath": "dist/packages/elf-sync-state",
         "main": "packages/elf-sync-state/src/index.ts",
         "tsConfig": "packages/elf-sync-state/tsconfig.lib.json",
-        "assets": ["packages/elf-sync-state/*.md"]
+        "assets": ["packages/elf-sync-state/CHANGELOG.md", "README.md"]
       }
     },
     "lint": {
@@ -33,16 +33,6 @@
       "options": {
         "preset": "conventional",
         "push": true
-      }
-    },
-    "publish": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": [
-          "npx nx build elf-sync-state",
-          "npm publish dist/packages/elf-sync-state --access public"
-        ],
-        "parallel": false
       }
     }
   },

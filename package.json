@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build": "nx run elf-sync-state:build",
+    "precd": "yarn build",
+    "cd": "npm publish dist/packages/elf-sync-state --access public",
     "audit:fix": "yarn-audit-fix",
     "update:nx": "nx migrate latest && yarn && (test -f migrations.json && (nx migrate --run-migrations && rm migrations.json) || 2>/dev/null)",
     "prepare": "husky install",
