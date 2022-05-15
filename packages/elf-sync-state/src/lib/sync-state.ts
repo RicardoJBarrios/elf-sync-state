@@ -5,18 +5,26 @@ import { distinctUntilChanged, finalize, Observable, skip, tap } from 'rxjs';
 interface Options<S extends Store> {
   channel?: string;
   source?: (store: S) => Observable<Partial<StoreValue<S>>>;
+  runGuard?: () => boolean;
 }
 
 export function syncState<S extends Store>(
   store: S,
   options?: Options<S>
-): BroadcastChannel {
+): BroadcastChannel | undefined {
   const defaultOptions: Required<Options<S>> = {
     channel: `${store.name}@store`,
     source: (_store) => _store.asObservable(),
+    runGuard: () =>
+      typeof window !== 'undefined' &&
+      typeof window.BroadcastChannel !== 'undefined',
   };
 
   const merged = { ...defaultOptions, ...options };
+
+  if (!merged.runGuard()) {
+    return;
+  }
 
   const stateChannel = new BroadcastChannel(merged.channel);
   let isPostable = true;

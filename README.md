@@ -1,8 +1,10 @@
 # Sync State
 
-[![npm](https://img.shields.io/npm/v/elf-sync-state?logo=npm&style=flat-square)](https://www.npmjs.com/package/elf-sync-state) [![GitHub](https://img.shields.io/github/license/ricardojbarrios/kuoki?style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state/blob/main/LICENSE.md) [![GitHub issues environment](https://img.shields.io/github/issues/ricardojbarrios/elf-sync-state?logo=github&label=issues&style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state/issues)
+[![npm](https://img.shields.io/npm/v/elf-sync-state?logo=npm&style=flat-square)](https://www.npmjs.com/package/elf-sync-state) [![GitHub](https://img.shields.io/github/license/ricardojbarrios/elf-sync-state?style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state/blob/main/LICENSE.md) [![GitHub Repo stars](https://img.shields.io/github/stars/ricardojbarrios/elf-sync-state?logo=github&style=flat-square)](https://github.com/RicardoJBarrios/elf-sync-state)
 
-The `syncState()` function gives you the ability to sync an [elf](https://ngneat.github.io/elf/) store state across multiple tabs, windows, iframes or workers using the [Broadcast Channel API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API).
+> Syncs elf store state across tabs
+
+The `syncState()` function gives you the ability to synchronize an [elf store](https://ngneat.github.io/elf/) state across multiple tabs, windows or iframes using the [Broadcast Channel API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API).
 
 First, you need to install the package via npm:
 
@@ -10,7 +12,7 @@ First, you need to install the package via npm:
 npm i elf-sync-state
 ```
 
-To use it you should call the `syncState()` function, passing the store:
+To use it you should call the `syncState()` function passing the store:
 
 ```ts
 import { createStore, withProps } from '@ngneat/elf';
@@ -18,34 +20,40 @@ import { syncState } from 'elf-sync-state';
 
 interface AuthProps {
   user: { id: string } | null;
+  token: string | null;
 }
 
 const authStore = createStore(
   { name: 'auth' },
-  withProps<AuthProps>({ user: null })
+  withProps<AuthProps>({ user: null, token: null })
 );
 
-const channel: BroadcastChannel = syncState(authStore);
+syncState(authStore);
 ```
 
 As the second parameter you can pass an optional `Options` object, which can be used to define the following:
 
 - `channel`: the name of the channel (by default - the store name plus a `@store` suffix).
 - `source`: a method that receives the store and return what to sync from it (by default - the entire store).
+- `runGuard` - a function that returns whether the actual implementation should be run. The default is `() => typeof window !== 'undefined' && typeof window.BroadcastChannel !== 'undefined'`.
 
 ```ts
 import { includeKeys, syncState } from 'elf-sync-state';
-import { todoStore } from './todo.store';
+import { authStore } from './auth.store';
 
-syncState(todoStore, {
-  channel: 'todo-channel',
-  source: () => todoStore.pipe(includeKeys(['ids', 'entities'])),
-});
+syncState(authStore, { channel: 'auth-channel' });
 ```
 
-The sync state also returns the [`BroadcastChannel`](https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel) object created.
+The sync state also returns the [`BroadcastChannel`](https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel) object created or `undefined` if the `runGuard` function returns `false`.
 
-## Sync a state subset
+```ts
+import { includeKeys, syncState } from 'elf-sync-state';
+import { authStore } from './auth.store';
+
+const channel: BroadcastChannel | undefined = syncState(authStore);
+```
+
+## Sync a subset of the state
 
 The `includeKeys()` operator can be used to sync a subset of the state:
 
@@ -58,9 +66,9 @@ syncState(todoStore, {
 });
 ```
 
-## Integration with other plugins
+## Integration with Elf :mage_woman:
 
-The use of this library has been tested together with other store libraries, such as [elf-entities](https://ngneat.github.io/elf/docs/features/entities/entities), [elf-persist-state](https://ngneat.github.io/elf/docs/features/persist-state) or [elf-state-history](https://ngneat.github.io/elf/docs/features/history).
+The use of this library has been tested together with other Elf libraries, such as [elf-entities](https://ngneat.github.io/elf/docs/features/entities/entities), [elf-persist-state](https://ngneat.github.io/elf/docs/features/persist-state) or [elf-state-history](https://ngneat.github.io/elf/docs/features/history). I have also tried to be consistent with their programming style and documentation to help with integration.
 
 [Here](https://stackblitz.com/edit/angular-elf-sync-state?devToolsHeight=33&file=src/app/todo.repository.ts) is an example of using all of these in an Angular application. Just open the result in two different tabs to see the library in action.
 

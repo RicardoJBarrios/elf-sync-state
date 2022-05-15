@@ -33,40 +33,54 @@ class MockBroadcastChannel implements BroadcastChannel {
 describe('syncState', () => {
   const name = 'name';
 
-  beforeAll(() => {
+  beforeEach(() => {
     window.BroadcastChannel = MockBroadcastChannel;
+  });
+
+  it('returns undefined if no window', () => {
+    window.BroadcastChannel = undefined as any;
+    window = undefined as any;
+    const store = createStore({ name }, withProps<any>({}));
+
+    expect(syncState(store)).toBeUndefined();
+  });
+
+  it('returns undefined if no Broadcast Channel API', () => {
+    window.BroadcastChannel = undefined as any;
+    const store = createStore({ name }, withProps<any>({}));
+
+    expect(syncState(store)).toBeUndefined();
   });
 
   it('returns the BroadcastChannel', () => {
     const store = createStore({ name }, withProps<any>({}));
-    const channel = syncState(store);
 
-    expect(channel).toBeInstanceOf(BroadcastChannel);
+    expect(syncState(store)).toBeInstanceOf(BroadcastChannel);
   });
 
   it(`creates a BroadcastChannel with store name plus '@store'`, () => {
     const store = createStore({ name }, withProps<any>({}));
 
-    expect(syncState(store).name).toEqual(`${name}@store`);
+    expect(syncState(store)?.name).toEqual(`${name}@store`);
   });
 
   it('creates a BroadcastChannel with option channel name', () => {
     const store = createStore({ name }, withProps({}));
     const channel = 'channel';
 
-    expect(syncState(store, { channel }).name).toEqual(channel);
+    expect(syncState(store, { channel })?.name).toEqual(channel);
   });
 
   it('post a channel message on elf state change', () => {
     const store = createStore({ name }, withProps<any>({}));
     const channel = syncState(store);
 
-    expect(channel.postMessage).not.toHaveBeenCalled();
+    expect(channel?.postMessage).not.toHaveBeenCalled();
 
     const newName = 'newName';
     store.update(setProp('newName', newName));
 
-    expect(channel.postMessage).toHaveBeenNthCalledWith(1, { newName });
+    expect(channel?.postMessage).toHaveBeenNthCalledWith(1, { newName });
   });
 
   it('post a channel message on option source change', () => {
@@ -74,15 +88,15 @@ describe('syncState', () => {
     const source = (s: Store) => s.pipe(includeKeys(['b']));
     const channel = syncState(store, { source });
 
-    expect(channel.postMessage).not.toHaveBeenCalled();
+    expect(channel?.postMessage).not.toHaveBeenCalled();
 
     store.update(setProp('b', 1));
 
-    expect(channel.postMessage).toHaveBeenNthCalledWith(1, { b: 1 });
+    expect(channel?.postMessage).toHaveBeenNthCalledWith(1, { b: 1 });
 
     store.update(setProp('a', 1));
 
-    expect(channel.postMessage).toHaveBeenCalledTimes(1);
+    expect(channel?.postMessage).toHaveBeenCalledTimes(1);
   });
 
   it('update the elf store with channel message state data', () => {
@@ -131,10 +145,10 @@ describe('syncState', () => {
     const source = (s: Store) => s.pipe(take(2));
     const channel = syncState(store, { source });
 
-    expect(channel.close).not.toHaveBeenCalled();
+    expect(channel?.close).not.toHaveBeenCalled();
 
     store.update(setProp('a', 1));
 
-    expect(channel.close).toHaveBeenCalledTimes(1);
+    expect(channel?.close).toHaveBeenCalledTimes(1);
   });
 });
