@@ -2,6 +2,12 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.2.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.1.0...elf-sync-state-1.2.0) (2022-05-15)
+
+### Features
+
+- **elf-sync-state:** add preUpdate option ([ec73be8](https://github.com/RicardoJBarrios/elf-sync-state/commit/ec73be8315c6b2f3d1892d0d363812a0c30cde48))
+
 ## [1.1.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.0.1...elf-sync-state-1.1.0) (2022-05-15)
 
 ### Features
