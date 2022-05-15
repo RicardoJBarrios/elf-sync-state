@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "audit:fix": "yarn-audit-fix",
+    "update:nx": "nx migrate latest && yarn && (test -f migrations.json && (nx migrate --run-migrations && rm migrations.json) || 2>/dev/null)",
     "prepare": "husky install",
     "commit": "cz"
   },
@@ -42,7 +44,11 @@
     "prettier": "^2.5.1",
     "ts-jest": "27.1.4",
     "ts-node": "9.1.1",
-    "typescript": "~4.6.2"
+    "typescript": "~4.6.2",
+    "yarn-audit-fix": "^9.3.1"
+  },
+  "resolutions": {
+    "minimist": ">=1.2.6"
   },
   "lint-staged": {
     "*": [
