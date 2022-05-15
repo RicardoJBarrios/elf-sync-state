@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nx run elf-sync-state:build",
+    "test": "nx run elf-sync-state:test --codeCoverage",
     "precd": "yarn build",
     "cd": "npm publish dist/packages/elf-sync-state --access public",
     "audit:fix": "yarn-audit-fix",
