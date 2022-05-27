@@ -2,6 +2,12 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+### [1.2.1](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.2.0...elf-sync-state-1.2.1) (2022-05-27)
+
+### Bug Fixes
+
+- resolve angular warning using target es2015 ([c9be2f8](https://github.com/RicardoJBarrios/elf-sync-state/commit/c9be2f8d205d1e8944c04546101a2570890744b3))
+
 ## [1.2.0](https://github.com/RicardoJBarrios/elf-sync-state/compare/elf-sync-state-1.1.0...elf-sync-state-1.2.0) (2022-05-15)
 
 ### Features
