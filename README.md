@@ -35,7 +35,7 @@ As the second parameter you can pass an optional `Options` object, which can be 
 
 - `channel`: the name of the channel (by default - the store name plus a `@store` suffix).
 - `source`: a function that receives the store and return what to sync from it. The default is `(store) => store`
-- `preUpdate`: a function to map the even message and get the data. The default is `(event) => event.data`.
+- `preUpdate`: a function to map the event message and get the data. The default is `(event) => event.data`.
 - `runGuard`: a function that returns whether the actual implementation should be run. The default is `() => typeof window !== 'undefined' && typeof window.BroadcastChannel !== 'undefined'`.
 
 ```ts
