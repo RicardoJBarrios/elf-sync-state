@@ -8,8 +8,8 @@
     "lint": "nx run elf-sync-state:lint",
     "predeploy": "npm run lint && npm run test && nx run elf-sync-state:version && npm run build",
     "deploy": "npm publish dist/packages/elf-sync-state --access public",
-    "audit:fix": "yarn-audit-fix",
-    "update:nx": "nx migrate latest && yarn && (test -f migrations.json && (nx migrate --run-migrations && rm migrations.json) || 2>/dev/null)",
+    "audit:fix": "pnpm audit --fix",
+    "update:nx": "nx migrate latest && pnpm i && (test -f migrations.json && (nx migrate --run-migrations && rm migrations.json) || 2>/dev/null)",
     "prepare": "husky install",
     "commit": "cz"
   },
