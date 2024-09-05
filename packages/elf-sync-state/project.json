@@ -1,10 +1,11 @@
 {
+  "name": "elf-sync-state",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/elf-sync-state/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:rollup",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "project": "packages/elf-sync-state/package.json",
@@ -44,7 +45,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/elf-sync-state"],
+      "outputs": ["{workspaceRoot}/coverage/packages/elf-sync-state"],
       "options": {
         "jestConfig": "packages/elf-sync-state/jest.config.ts",
         "passWithNoTests": true

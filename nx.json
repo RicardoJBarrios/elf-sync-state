@@ -1,13 +1,4 @@
 {
-  "extends": "nx/presets/core.json",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "elf-sync-state",
-  "affected": {
-    "defaultBase": "main"
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/nx-cloud",
@@ -15,6 +6,39 @@
         "cacheableOperations": ["build", "lint", "test"],
         "accessToken": "MWIzNzA0NzktYTg4Mi00NTJlLWFjNGEtZjAwZmJjZDg1ZGI0fHJlYWQtd3JpdGU="
       }
+    }
+  },
+  "extends": "nx/presets/core.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "elf-sync-state",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": ["{workspaceRoot}/babel.config.json"],
+    "production": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "inputs": ["production", "^production"]
+    },
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    },
+    "test": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+    }
+  },
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": true
     }
   }
 }
