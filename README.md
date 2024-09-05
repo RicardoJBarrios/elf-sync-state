@@ -9,7 +9,7 @@ The `syncState()` function gives you the ability to synchronize an [elf store](h
 First, you need to install the package via npm:
 
 ```bash
-npm i elf-sync-state
+npm install elf-sync-state
 ```
 
 To use it you should call the `syncState()` function passing the store:
@@ -23,20 +23,18 @@ interface AuthProps {
   token: string | null;
 }
 
-const authStore = createStore(
-  { name: 'auth' },
-  withProps<AuthProps>({ user: null, token: null })
-);
+const authStore = createStore({ name: 'auth' }, withProps<AuthProps>({ user: null, token: null }));
 
 syncState(authStore);
 ```
 
-As the second parameter you can pass an optional `Options` object, which can be used to define the following:
+You can pass an optional `Options` object as the second parameter, which allows you to configure the following:
 
-- `channel`: the name of the channel (by default - the store name plus a `@store` suffix).
-- `source`: a function that receives the store and return what to sync from it. The default is `(store) => store`.
-- `preUpdate`: a function to map the event message and get the data. The default is `(event) => event.data`.
-- `runGuard`: a function that returns whether the actual implementation should be run. The default is `() => typeof window !== 'undefined' && typeof window.BroadcastChannel !== 'undefined'`.
+- `channel`: the name of the channel (default is the store name with a `@store` suffix).
+- `source`: a function that receives the store and returns the data to sync. The default is `(store) => store`.
+- `preUpdate`: a function to map the event message and extract the data. The default is `(event) => event.data`.
+- `runGuard`: a function that determines whether the actual implementation should run. The default is `() => typeof window?.BroadcastChannel !== 'undefined'`.
+- `requestState`: a boolean indicating whether the store should request the current `source` from other instances. The default is `false`.
 
 ```ts
 import { syncState } from 'elf-sync-state';
@@ -56,7 +54,7 @@ const channel: BroadcastChannel | undefined = syncState(authStore);
 
 ## Sync a subset of the state
 
-The `includeKeys()` operator can be used to sync a subset of the state:
+The `includeKeys()` operator can be used with the `source` option to sync a subset of the state.
 
 ```ts
 import { includeKeys, syncState } from 'elf-sync-state';
@@ -82,6 +80,17 @@ syncState(authStore, {
     return event.origin === '' ? undefined : event.data;
   },
 });
+```
+
+## Request state
+
+If the `requestState` option is enabled, the store will request the initial state from other available stores on the same channel during startup.
+
+```ts
+import { syncState } from 'elf-sync-state';
+import { authStore } from './auth.store';
+
+syncState(authStore, { requestState: true });
 ```
 
 ## Integration with Elf :mage_woman:
