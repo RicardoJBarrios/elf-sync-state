@@ -1,17 +1,19 @@
 {
+  "name": "elf-sync-state",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/elf-sync-state/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/web:rollup",
+      "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "project": "packages/elf-sync-state/package.json",
         "outputPath": "dist/packages/elf-sync-state",
         "entryFile": "packages/elf-sync-state/src/index.ts",
         "tsConfig": "packages/elf-sync-state/tsconfig.lib.json",
-        "format": ["esm", "umd"],
+        "format": ["esm"],
         "globals": [
           {
             "global": "Rx",
@@ -32,22 +34,18 @@
             "input": ".",
             "output": "."
           }
-        ]
+        ],
+        "babelUpwardRootMode": true
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/elf-sync-state/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/elf-sync-state"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/elf-sync-state"],
       "options": {
-        "jestConfig": "packages/elf-sync-state/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "packages/elf-sync-state/jest.config.ts"
       }
     },
     "version": {
@@ -57,6 +55,5 @@
         "push": true
       }
     }
-  },
-  "tags": []
+  }
 }
